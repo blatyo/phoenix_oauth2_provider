@@ -7,9 +7,10 @@ defmodule PhoenixOauth2Provider.ApplicationController do
 
   @spec index(Conn.t(), map()) :: Conn.t()
   def index(conn, _params) do
-    applications = conn
-                   |> PhoenixOauth2Provider.current_resource_owner()
-                   |> OauthApplications.get_applications_for()
+    applications =
+      conn
+      |> PhoenixOauth2Provider.current_resource_owner()
+      |> OauthApplications.get_applications_for()
 
     render(conn, "index.html", applications: applications)
   end
@@ -30,7 +31,14 @@ defmodule PhoenixOauth2Provider.ApplicationController do
       {:ok, application} ->
         conn
         |> put_flash(:info, "Application created successfully.")
-        |> redirect(to: PhoenixOauth2Provider.router_helpers().oauth_application_path(conn, :show, application))
+        |> redirect(
+          to:
+            PhoenixOauth2Provider.router_helpers().oauth_application_path(
+              conn,
+              :show,
+              application
+            )
+        )
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
@@ -60,18 +68,26 @@ defmodule PhoenixOauth2Provider.ApplicationController do
       {:ok, application} ->
         conn
         |> put_flash(:info, "Application updated successfully.")
-        |> redirect(to: PhoenixOauth2Provider.router_helpers().oauth_application_path(conn, :show, application))
-      {:error, %Ecto.Changeset{} = changeset} ->
+        |> redirect(
+          to:
+            PhoenixOauth2Provider.router_helpers().oauth_application_path(
+              conn,
+              :show,
+              application
+            )
+        )
 
+      {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", application: application, changeset: changeset)
     end
   end
 
   @spec delete(Conn.t(), map()) :: Conn.t()
   def delete(conn, %{"uid" => uid}) do
-    {:ok, _application} = conn
-                          |> get_application_for!(uid)
-                          |> OauthApplications.delete_application()
+    {:ok, _application} =
+      conn
+      |> get_application_for!(uid)
+      |> OauthApplications.delete_application()
 
     conn
     |> put_flash(:info, "Application deleted successfully.")
@@ -79,6 +95,9 @@ defmodule PhoenixOauth2Provider.ApplicationController do
   end
 
   defp get_application_for!(conn, uid) do
-    OauthApplications.get_application_for!(PhoenixOauth2Provider.current_resource_owner(conn), uid)
+    OauthApplications.get_application_for!(
+      PhoenixOauth2Provider.current_resource_owner(conn),
+      uid
+    )
   end
 end

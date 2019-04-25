@@ -4,31 +4,35 @@ defmodule PhoenixOauth2Provider.Mixfile do
   @version "0.4.1"
 
   def project do
-    [app: :phoenix_oauth2_provider,
-     version: @version,
-     elixir: "~> 1.4",
-     elixirc_paths: elixirc_paths(Mix.env),
-     build_embedded: Mix.env == :prod,
-     start_permanent: Mix.env == :prod,
-     compilers: [:phoenix] ++ Mix.compilers,
-     preferred_cli_env: [credo: :test, ex_doc: :test],
-     deps: deps(),
+    [
+      app: :phoenix_oauth2_provider,
+      version: @version,
+      elixir: "~> 1.4",
+      elixirc_paths: elixirc_paths(Mix.env()),
+      build_embedded: Mix.env() == :prod,
+      start_permanent: Mix.env() == :prod,
+      compilers: [:phoenix] ++ Mix.compilers(),
+      preferred_cli_env: [credo: :test, ex_doc: :test],
+      deps: deps(),
 
-     # Hex
-     description: "The fastest way to set up OAuth 2.0 server in your Phoenix app",
-     package: package(),
+      # Hex
+      description: "The fastest way to set up OAuth 2.0 server in your Phoenix app",
+      package: package(),
 
       # Docs
       name: "PhoenixOauth2Provider",
-      docs: [source_ref: "v#{@version}", main: "PhoenixOauth2Provider",
-             canonical: "http://hexdocs.pm/phoenix_oauth2_provider",
-             source_url: "https://github.com/danschultzer/phoenix_oauth2_provider",
-             extras: ["README.md"]]
-   ]
+      docs: [
+        source_ref: "v#{@version}",
+        main: "PhoenixOauth2Provider",
+        canonical: "http://hexdocs.pm/phoenix_oauth2_provider",
+        source_url: "https://github.com/danschultzer/phoenix_oauth2_provider",
+        extras: ["README.md"]
+      ]
+    ]
   end
 
   def application do
-    [extra_applications: extra_applications(Mix.env)]
+    [extra_applications: extra_applications(Mix.env())]
   end
 
   defp extra_applications(:test), do: [:postgrex, :ecto, :logger]
@@ -54,7 +58,7 @@ defmodule PhoenixOauth2Provider.Mixfile do
     [
       maintainers: ["Dan Shultzer", "Benjamin Schultzer"],
       licenses: ["MIT"],
-      links: %{github: "https://github.com/danschultzer/phoenix_oauth2_provider"},
+      links: %{github: "https://github.com/blatyo/phoenix_oauth2_provider"},
       files: ~w(lib priv/boilerplate priv/gettext) ++ ~w(LICENSE mix.exs README.md)
     ]
   end
